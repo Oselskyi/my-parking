@@ -1,25 +1,23 @@
-package com.parking.myparking.services;
+package com.parking.myparking.services.tickets;
 
 import com.parking.myparking.model.Car;
 import com.parking.myparking.model.Ticket;
 import com.parking.myparking.repository.TicketRepository;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Service
-public class EastTicketService implements TicketService{
+public abstract class AbstractTicketService implements TicketService{
 
     private final TicketRepository ticketRepository;
 
-    public EastTicketService(TicketRepository ticketRepository) {
+    protected AbstractTicketService(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
 
     @Override
     public Ticket createTicket(Car car) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        Ticket ticket = new Ticket(localDateTime, car);
+        LocalDateTime localDateTime = LocalDateTime.now().withNano(0);
+        Ticket ticket = new Ticket(localDateTime);
         ticketRepository.save(ticket);
         return ticket;
     }

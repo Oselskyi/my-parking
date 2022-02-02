@@ -1,7 +1,7 @@
 package com.parking.myparking.controller;
 
 import com.parking.myparking.model.Car;
-import com.parking.myparking.services.CarService;
+import com.parking.myparking.services.cars.CarService;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,7 +18,7 @@ public class CarController {
 
     @GetMapping()
     public List<Car> getAll(){
-        return carService.findAll();
+        return carService.showAllCars();
     }
 
     @GetMapping("{id}")
@@ -28,16 +28,17 @@ public class CarController {
 
     @PostMapping("/add")
     public Car createCars(@RequestBody Car car){
-        return carService.goIn(car);
+        carService.enter(car);
+        return car;
     }
 
-    @DeleteMapping("/delete")
-    public void deleteCar(@RequestBody Car car){
-        carService.delete(car);
-    }
-    @DeleteMapping("/delete, {id}")
-    public void deleteCarById(@PathVariable Long id){
-        carService.deleteById(id);
-    }
+//    @DeleteMapping("/delete")
+//    public void deleteCar(@RequestBody Car car){
+//        carService.delete(car);
+//    }
+//    @DeleteMapping("/delete, {id}")
+//    public void deleteCarById(@PathVariable Long id){
+//        carService.deleteById(id);
+//    }
 
 }
