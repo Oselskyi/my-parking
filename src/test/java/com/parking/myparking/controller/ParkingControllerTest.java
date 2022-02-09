@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,9 +38,9 @@ class ParkingControllerTest {
     @BeforeEach
     void setUp() {
         tickets = new ArrayList<>();
-        ticket = new Ticket(1L,12, LocalDateTime.now(), new ParkingTerminal());
+        ticket = new Ticket(1L, 12, LocalDateTime.now(), 0, new ParkingTerminal());
         tickets.add(ticket);
-        tickets.add(new Ticket(2L,22, LocalDateTime.now(), new ParkingTerminal()));
+        tickets.add(new Ticket(2L, 22, LocalDateTime.now(), 0, new ParkingTerminal()));
 
         mockMvc = MockMvcBuilders.standaloneSetup(parkingController).build();
     }

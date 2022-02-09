@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ParkingTerminalService {
     List<Ticket> showAllTickets();
+
     Ticket enter();
+
     Double exit(Long id);
 }

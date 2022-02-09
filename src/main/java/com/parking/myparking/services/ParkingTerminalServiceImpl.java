@@ -1,23 +1,30 @@
 package com.parking.myparking.services;
 
-import com.parking.myparking.model.ParkingTerminal;
 import com.parking.myparking.model.Ticket;
-import com.parking.myparking.repository.ParkingTerminalRepository;
 import com.parking.myparking.repository.TicketRepository;
+import com.parking.myparking.rules.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Service
 public class ParkingTerminalServiceImpl implements ParkingTerminalService {
 
-    private final ParkingTerminalRepository parkingTerminalRepository;
     private final TicketRepository ticketRepository;
+    private final ParkingServiceImpl parkingService;
 
-    public ParkingTerminalServiceImpl(ParkingTerminalRepository parkingTerminalRepository, TicketRepository ticketRepository) {
-        this.parkingTerminalRepository = parkingTerminalRepository;
+    private List<PaymentRule> rules;
+
+    public ParkingTerminalServiceImpl(TicketRepository ticketRepository, ParkingServiceImpl parkingService) {
         this.ticketRepository = ticketRepository;
+        this.parkingService = parkingService;
+
+        rules = List.of(
+                new FreeParking(), new ParkingForHalfDay(),
+                new ParkingForDay(), new ParkingMoreThenDay(),
+                new LostTicket());
+
     }
 
     @Override
@@ -26,15 +33,8 @@ public class ParkingTerminalServiceImpl implements ParkingTerminalService {
     }
 
     @Override
-    public Ticket enter( ) {
-        Ticket newTicket = new Ticket();
-        int number = (int) (Math.random() * 100);
-        newTicket.setTicketNumber(number);
-        newTicket.setEnterTime(LocalDateTime.now());
-        ParkingTerminal parkingTerminal = new ParkingTerminal();
-        parkingTerminal.setName("magic terminal");
-        parkingTerminalRepository.save(parkingTerminal);
-        newTicket.setParkingTerminal(parkingTerminal);
+    public Ticket enter() {
+        Ticket newTicket = Ticket.forEntry(parkingService.createNewTerminal("back"));
         ticketRepository.save(newTicket);
 
         return newTicket;
@@ -42,24 +42,14 @@ public class ParkingTerminalServiceImpl implements ParkingTerminalService {
 
     @Override
     public Double exit(Long id) {
-        double sum = payment(ticketRepository.getById(id));
+
+        Ticket ticket = ticketRepository.getById(id);
+        rules.stream()
+                .filter(rule -> rule.shouldRun(ticket))
+                .forEach(rule -> rule.calculateClientPayment(ticket));
         ticketRepository.deleteById(id);
-        return sum;
+        return ticket.getPayment();
     }
 
-    private Double payment(Ticket ticket) {
-        int timeVisit = LocalDateTime.now().getHour() - (ticket.getEnterTime().getHour());
 
-        double payment;
-        if (timeVisit > 1 && timeVisit <= 5) {
-            payment = timeVisit * 10;
-            return payment;
-        } else if (timeVisit <= 16) {
-            payment = timeVisit * 15;
-            return payment;
-        } else {
-            payment = timeVisit * 20;
-            return payment;
-        }
-    }
 }

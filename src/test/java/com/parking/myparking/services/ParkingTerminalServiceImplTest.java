@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -36,15 +35,13 @@ class ParkingTerminalServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        ticket1 = new Ticket(1L,12, LocalDateTime.now(), new ParkingTerminal());
-        ticket2 = new Ticket(2L,22, LocalDateTime.now(), new ParkingTerminal());
+        ticket1 = new Ticket(1L, 12, LocalDateTime.now(), 0, new ParkingTerminal());
+        ticket2 = new Ticket(2L, 22, LocalDateTime.now(), 0, new ParkingTerminal());
     }
 
     @Test
     void showAllVisitors() {
-        List<Ticket> returnTickets = new ArrayList<>();
-        returnTickets.add(ticket1);
-        returnTickets.add(ticket2);
+        List<Ticket> returnTickets = List.of(ticket1, ticket2);
 
         when(ticketRepository.findAll()).thenReturn(returnTickets);
 

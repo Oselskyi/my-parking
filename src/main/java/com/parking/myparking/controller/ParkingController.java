@@ -17,19 +17,19 @@ public class ParkingController {
     }
 
     @GetMapping
-    public List<Ticket> showAllTickets(){
+    public List<Ticket> showAllTickets() {
         return parkingTerminalService.showAllTickets();
     }
 
     @PostMapping
-    public Integer enter(){
+    public Integer enter() {
 
         Ticket ticket = parkingTerminalService.enter();
         return ticket.getTicketNumber();
     }
 
     @DeleteMapping("/{id}")
-    public Double exit(@PathVariable("id") Long id){
+    public Double exit(@PathVariable("id") Long id) {
 
         return parkingTerminalService.exit(id);
     }

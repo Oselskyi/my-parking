@@ -28,10 +28,21 @@ public class Ticket {
     @Column(name = "enter_time")
     private LocalDateTime enterTime;
 
+    @Column(name = "payment")
+    private double payment;
+
     @ManyToOne
     @JoinColumn(name = "parking_terminal_id")
     @JsonIgnore
     private ParkingTerminal parkingTerminal;
 
+    public static Ticket forEntry(ParkingTerminal terminal) {
+        int number = (int) (Math.random() * 100);
+        Ticket newTicket = new Ticket();
+        newTicket.setTicketNumber(number);
+        newTicket.setEnterTime(LocalDateTime.now());
+        newTicket.setParkingTerminal(terminal);
 
+        return newTicket;
+    }
 }
