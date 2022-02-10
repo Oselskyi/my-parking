@@ -1,12 +1,13 @@
 package com.parking.myparking.rules;
 
 import com.parking.myparking.model.Ticket;
+import com.parking.myparking.repository.PriceRepository;
 
 public class LostTicket implements PaymentRule {
     @Override
-    public double calculateClientPayment(Ticket ticket) {
+    public double calculateClientPayment(Ticket ticket, PriceRepository priceRepository) {
 
-        ticket.setPayment(10000);
+        ticket.setPayment(priceRepository.getPrice("ForLost"));
 
 
         return ticket.getPayment();

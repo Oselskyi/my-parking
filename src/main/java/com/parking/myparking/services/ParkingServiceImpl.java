@@ -38,6 +38,9 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public ParkingTerminal getTerminalByName(String name) {
+        if (parkingTerminalRepository.findByName(name) == null){
+            //throw Exception
+        }
         return parkingTerminalRepository.findByName(name);
     }
 }
