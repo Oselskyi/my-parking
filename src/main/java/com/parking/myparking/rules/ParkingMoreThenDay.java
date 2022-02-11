@@ -1,7 +1,6 @@
 package com.parking.myparking.rules;
 
 import com.parking.myparking.model.Ticket;
-import com.parking.myparking.repository.PriceRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -10,9 +9,10 @@ public class ParkingMoreThenDay implements PaymentRule {
 
 
     @Override
-    public double calculateClientPayment(Ticket ticket, PriceRepository priceRepository) {
+    public double calculateClientPayment(Ticket ticket) {
 
-        ticket.setPayment(ticket.getEnterTime().until(LocalDateTime.now(), ChronoUnit.DAYS) * priceRepository.getPrice("ForMoreThanDay"));
+        ticket.setPayment(ticket.getEnterTime().until(LocalDateTime.now(), ChronoUnit.DAYS)
+                * ticket.getParkingTerminal().getPrice().getPriceMoreThenDay());
         return ticket.getPayment();
     }
 

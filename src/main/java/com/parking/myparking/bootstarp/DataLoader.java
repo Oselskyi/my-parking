@@ -7,6 +7,8 @@ import com.parking.myparking.repository.PriceRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -18,37 +20,38 @@ public class DataLoader implements CommandLineRunner {
         this.priceRepository = priceRepository;
     }
 
+    @PostConstruct
+    public void init() {
+//        Price hourPrice = new Price();
+//        hourPrice.setPriceForHalfDay(2);
+//        hourPrice.setPriceForDay(3);
+//        hourPrice.setPriceMoreThenDay(20);
+//        hourPrice.setPriceForLost(50);
+//        priceRepository.save(hourPrice);
+
+    }
+
     @Override
     public void run(String... args) {
 
+        Price hourPrice = new Price();
+        hourPrice.setPriceForHalfDay(2);
+        hourPrice.setPriceForDay(3);
+        hourPrice.setPriceMoreThenDay(20);
+        hourPrice.setPriceForLost(50);
+        priceRepository.save(hourPrice);
+
+
+
         ParkingTerminal frontTerminal = new ParkingTerminal();
         frontTerminal.setName("front");
+        frontTerminal.setPrice(hourPrice);
         parkingTerminalRepository.save(frontTerminal);
 
         ParkingTerminal backTerminal = new ParkingTerminal();
         backTerminal.setName("back");
+        backTerminal.setPrice(hourPrice);
         parkingTerminalRepository.save(backTerminal);
-
-
-        Price hourPrice = new Price();
-        hourPrice.setName("ForHalfDay");
-        hourPrice.setPrice(2);
-        priceRepository.save(hourPrice);
-
-        Price hourPriceForDay = new Price();
-        hourPriceForDay.setName("ForDay");
-        hourPriceForDay.setPrice(3);
-        priceRepository.save(hourPriceForDay);
-
-        Price priceForDay = new Price();
-        priceForDay.setName("ForMoreThanDay");
-        priceForDay.setPrice(20);
-        priceRepository.save(priceForDay);
-
-        Price priceForLost = new Price();
-        priceForLost.setName("ForLost");
-        priceForLost.setPrice(50);
-        priceRepository.save(priceForLost);
 
 
     }

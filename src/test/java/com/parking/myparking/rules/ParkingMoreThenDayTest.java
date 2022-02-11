@@ -1,9 +1,11 @@
 package com.parking.myparking.rules;
 
+import com.parking.myparking.model.Price;
 import com.parking.myparking.model.Ticket;
 import com.parking.myparking.repository.PriceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ class ParkingMoreThenDayTest {
 
     Ticket ticket, ticket1;
     ParkingMoreThenDay parkingMoreThenDay;
+
+    Price hourPrice;
 
     @Mock
     PriceRepository priceRepository;
@@ -31,9 +35,9 @@ class ParkingMoreThenDayTest {
 
     @Test
     void calculateClientPayment() {
-        when(priceRepository.getPrice(any())).thenReturn(20);
+        //when(priceRepository.getPrice(any())).thenReturn(20);
 
-        assertEquals(20, parkingMoreThenDay.calculateClientPayment(ticket, priceRepository));
+        assertEquals(80, parkingMoreThenDay.calculateClientPayment(ticket));
     }
 
     @Test

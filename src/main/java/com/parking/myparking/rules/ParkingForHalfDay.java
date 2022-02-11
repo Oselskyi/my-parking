@@ -1,17 +1,19 @@
 package com.parking.myparking.rules;
 
+import com.parking.myparking.model.Price;
 import com.parking.myparking.model.Ticket;
-import com.parking.myparking.repository.PriceRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class ParkingForHalfDay implements PaymentRule {
 
-    @Override
-    public double calculateClientPayment(Ticket ticket, PriceRepository priceRepository) {
 
-        ticket.setPayment(ticket.getEnterTime().until(LocalDateTime.now(), ChronoUnit.HOURS) * priceRepository.getPrice("ForHalfDay"));
+    @Override
+    public double calculateClientPayment(Ticket ticket) {
+
+        ticket.setPayment(ticket.getEnterTime().until(LocalDateTime.now(), ChronoUnit.HOURS)
+                * ticket.getParkingTerminal().getPrice().getPriceForHalfDay());
         return ticket.getPayment();
     }
 

@@ -1,11 +1,11 @@
 package com.parking.myparking.rules;
 
+import com.parking.myparking.model.Price;
 import com.parking.myparking.model.Ticket;
-import com.parking.myparking.repository.PriceRepository;
 
 public interface PaymentRule {
 
-    double calculateClientPayment(Ticket ticket, PriceRepository priceRepository);
+    double calculateClientPayment(Ticket ticket);
 
     boolean shouldRun(Ticket ticket);
 }

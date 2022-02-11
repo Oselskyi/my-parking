@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "tickets")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tickets")
 public class Ticket {
 
     @Id
@@ -40,7 +40,7 @@ public class Ticket {
         int number = (int) (Math.random() * 100);
         Ticket newTicket = new Ticket();
         newTicket.setTicketNumber(number);
-        newTicket.setEnterTime(LocalDateTime.now());
+        newTicket.setEnterTime(LocalDateTime.now().minusHours(4));
         newTicket.setParkingTerminal(terminal);
 
         return newTicket;

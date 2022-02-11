@@ -1,7 +1,7 @@
 package com.parking.myparking.services;
 
+import com.parking.myparking.model.Price;
 import com.parking.myparking.model.Ticket;
-import com.parking.myparking.repository.PriceRepository;
 import com.parking.myparking.repository.TicketRepository;
 import com.parking.myparking.rules.*;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,14 @@ public class ParkingTerminalServiceImpl implements ParkingTerminalService {
 
     private final TicketRepository ticketRepository;
     private final ParkingServiceImpl parkingService;
-    private final PriceRepository priceRepository;
+    Price price = new Price();
+
 
     private List<PaymentRule> rules;
 
-    public ParkingTerminalServiceImpl(TicketRepository ticketRepository, ParkingServiceImpl parkingService, PriceRepository priceRepository) {
+    public ParkingTerminalServiceImpl(TicketRepository ticketRepository, ParkingServiceImpl parkingService) {
         this.ticketRepository = ticketRepository;
         this.parkingService = parkingService;
-        this.priceRepository = priceRepository;
 
         rules = List.of(
                 new FreeParking(), new ParkingForHalfDay(),
@@ -50,7 +50,7 @@ public class ParkingTerminalServiceImpl implements ParkingTerminalService {
 
         rules.stream()
                 .filter(rule -> rule.shouldRun(ticket))
-                .forEach(rule -> rule.calculateClientPayment(ticket, priceRepository));
+                .forEach(rule -> rule.calculateClientPayment(ticket));
         ticketRepository.deleteById(id);
 
         return ticket.getPayment();
