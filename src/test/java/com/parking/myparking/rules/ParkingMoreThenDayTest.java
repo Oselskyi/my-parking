@@ -16,33 +16,31 @@ import static org.mockito.Mockito.when;
 
 class ParkingMoreThenDayTest {
 
-    Ticket ticket, ticket1;
+    Ticket ticket;
     ParkingMoreThenDay parkingMoreThenDay;
+    Price price;
 
-    Price hourPrice;
-
-    @Mock
-    PriceRepository priceRepository;
 
     @BeforeEach
     void setUp() {
         ticket = new Ticket();
-        ticket1 = new Ticket();
-        ticket.setEnterTime(LocalDateTime.now().minusDays(4));
-        ticket1.setEnterTime(LocalDateTime.now().minusHours(4));
+        ticket.setEnterTime(LocalDateTime.now().minusHours(25));
+
+        price = new Price();
+        price.setPriceMoreThenDay(20);
+
+
         parkingMoreThenDay = new ParkingMoreThenDay();
     }
 
     @Test
     void calculateClientPayment() {
-        //when(priceRepository.getPrice(any())).thenReturn(20);
 
-        assertEquals(80, parkingMoreThenDay.calculateClientPayment(ticket));
+        assertEquals(20, parkingMoreThenDay.calculateClientPayment(ticket, price));
     }
 
     @Test
     void shouldRun() {
         assertTrue(parkingMoreThenDay.shouldRun(ticket));
-        assertFalse(parkingMoreThenDay.shouldRun(ticket1));
     }
 }

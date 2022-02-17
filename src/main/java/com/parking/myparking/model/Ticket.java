@@ -37,10 +37,11 @@ public class Ticket {
     private ParkingTerminal parkingTerminal;
 
     public static Ticket forEntry(ParkingTerminal terminal) {
+
         int number = (int) (Math.random() * 100);
         Ticket newTicket = new Ticket();
         newTicket.setTicketNumber(number);
-        newTicket.setEnterTime(LocalDateTime.now().minusHours(4));
+        newTicket.setEnterTime(LocalDateTime.now().minusHours(14));
         newTicket.setParkingTerminal(terminal);
 
         return newTicket;

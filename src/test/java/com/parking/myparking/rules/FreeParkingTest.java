@@ -20,6 +20,6 @@ class FreeParkingTest {
         ticket.setEnterTime(start);
         FreeParking freeParking = new FreeParking();
 
-        assertEquals(0, freeParking.calculateClientPayment(ticket));
+        assertEquals(0, freeParking.calculateClientPayment(ticket, new Price()));
     }
 }

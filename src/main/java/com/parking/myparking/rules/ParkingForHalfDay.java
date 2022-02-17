@@ -10,10 +10,10 @@ public class ParkingForHalfDay implements PaymentRule {
 
 
     @Override
-    public double calculateClientPayment(Ticket ticket) {
+    public double calculateClientPayment(Ticket ticket, Price price) {
 
         ticket.setPayment(ticket.getEnterTime().until(LocalDateTime.now(), ChronoUnit.HOURS)
-                * ticket.getParkingTerminal().getPrice().getPriceForHalfDay());
+                * price.getPriceForHalfDay());
         return ticket.getPayment();
     }
 

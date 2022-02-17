@@ -22,9 +22,11 @@ class LostTicketTest {
         Ticket ticket = new Ticket();
         ticket.setEnterTime(null);
         LostTicket lostTicket = new LostTicket();
-        //when(priceRepository.getPrice("ForLost")).thenReturn(50);
 
-        assertEquals(50, lostTicket.calculateClientPayment(ticket));
+        Price price = new Price();
+        price.setPriceForLost(50);
+
+        assertEquals(50, lostTicket.calculateClientPayment(ticket, price));
     }
 
     @Test

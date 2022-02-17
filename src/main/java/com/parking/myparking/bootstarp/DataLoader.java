@@ -4,6 +4,7 @@ import com.parking.myparking.model.ParkingTerminal;
 import com.parking.myparking.model.Price;
 import com.parking.myparking.repository.ParkingTerminalRepository;
 import com.parking.myparking.repository.PriceRepository;
+import com.parking.myparking.services.PriceTest;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,43 +15,29 @@ public class DataLoader implements CommandLineRunner {
 
     private final ParkingTerminalRepository parkingTerminalRepository;
     private final PriceRepository priceRepository;
+    private final PriceTest priceTest;
 
-    public DataLoader(ParkingTerminalRepository parkingTerminalRepository, PriceRepository priceRepository) {
+    public DataLoader(ParkingTerminalRepository parkingTerminalRepository, PriceRepository priceRepository, PriceTest priceTest) {
         this.parkingTerminalRepository = parkingTerminalRepository;
         this.priceRepository = priceRepository;
+        this.priceTest = priceTest;
     }
 
-    @PostConstruct
-    public void init() {
-//        Price hourPrice = new Price();
-//        hourPrice.setPriceForHalfDay(2);
-//        hourPrice.setPriceForDay(3);
-//        hourPrice.setPriceMoreThenDay(20);
-//        hourPrice.setPriceForLost(50);
-//        priceRepository.save(hourPrice);
-
-    }
 
     @Override
     public void run(String... args) {
 
-        Price hourPrice = new Price();
-        hourPrice.setPriceForHalfDay(2);
-        hourPrice.setPriceForDay(3);
-        hourPrice.setPriceMoreThenDay(20);
-        hourPrice.setPriceForLost(50);
-        priceRepository.save(hourPrice);
-
-
+        Price price = priceTest.init();
+        priceRepository.save(price);
 
         ParkingTerminal frontTerminal = new ParkingTerminal();
         frontTerminal.setName("front");
-        frontTerminal.setPrice(hourPrice);
+        frontTerminal.setPrice(price);
         parkingTerminalRepository.save(frontTerminal);
 
         ParkingTerminal backTerminal = new ParkingTerminal();
         backTerminal.setName("back");
-        backTerminal.setPrice(hourPrice);
+        backTerminal.setPrice(price);
         parkingTerminalRepository.save(backTerminal);
 
 

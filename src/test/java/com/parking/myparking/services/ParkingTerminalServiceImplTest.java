@@ -26,15 +26,17 @@ class ParkingTerminalServiceImplTest {
     ParkingTerminalServiceImpl parkingTerminalService;
 
     @Mock
-    ParkingTerminalRepository parkingTerminalRepository;
+    ParkingService parkingService;
     @Mock
     TicketRepository ticketRepository;
 
     Ticket ticket1;
     Ticket ticket2;
 
+
     @BeforeEach
     void setUp() {
+
         ticket1 = new Ticket(1L, 12, LocalDateTime.now(), 0, new ParkingTerminal());
         ticket2 = new Ticket(2L, 22, LocalDateTime.now(), 0, new ParkingTerminal());
     }
@@ -53,6 +55,8 @@ class ParkingTerminalServiceImplTest {
 
     @Test
     void enter() {
+
+//        when(parkingService.getTerminalByName("back")).thenReturn(parkingTerminal);
         when(ticketRepository.save(any())).thenReturn(ticket1);
 
         Ticket savedTicket = parkingTerminalService.enter();
